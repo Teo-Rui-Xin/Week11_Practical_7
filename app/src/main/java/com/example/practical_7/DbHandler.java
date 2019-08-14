@@ -89,4 +89,22 @@ public class DbHandler extends SQLiteOpenHelper {
         //if username does not exist return false
         return false;
     }
+
+    public void updateUser(String username, String password){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PASSWORD, password);
+        db.execSQL("UPDATE " + TABLE_USERS + " SET " + COLUMN_PASSWORD
+                + " = " + "'" + password + "'"
+                + " WHERE " + COLUMN_USERNAME
+                + " = " + "'" + username + "'");
+        db.close();
+    }
+
+    public void deleteUser(String username){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_USERS + " WHERE " + COLUMN_USERNAME + " = " + "'" + username + "'"); //+ COLUMN_QUEUETICKET + " = '" + tix + "'");
+        //return db.delete(TICKETS, COLUMN_QUEUETICKET + "=" + tix, null) > 0;
+        db.close();
+    }
 }
