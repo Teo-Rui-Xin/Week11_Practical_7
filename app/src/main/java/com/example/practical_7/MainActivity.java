@@ -2,6 +2,7 @@ package com.example.practical_7;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -54,7 +55,11 @@ public class MainActivity extends AppCompatActivity {
                 User currentUser = db.Authenticate(new User(username, password));
 
                 if(currentUser != null){
-                    Toast.makeText(MainActivity.this, "Valid", Toast.LENGTH_SHORT).show();
+                    //**Shared Preferences - Read Data*/
+                    SharedPreferences prefs = getSharedPreferences("MY_GLOBAL_PREFS", MODE_PRIVATE);
+                    String username2 = prefs.getString("USER_NAME", " ");
+
+                    Toast.makeText(MainActivity.this, "Valid " + username2, Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(MainActivity.this, "Invalid", Toast.LENGTH_SHORT).show();
@@ -75,17 +80,17 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!db.isUsernameExists(username)){
                     /**Show toast message saying that account is not found**/
-                    Toast tt = Toast.makeText(MainActivity.this, "Account not found.", Toast.LENGTH_LONG); //LENGTH_LONG - toast appear for 3 seconds
+                    Toast tt = Toast.makeText(MainActivity.this, "Account not found.", Toast.LENGTH_SHORT); //LENGTH_LONG - toast appear for 3 seconds
                     tt.show();
                 }
                 else if (matcher.matches() == true) {
                     db.updateUser(currentUser);
-                    Toast tt = Toast.makeText(MainActivity.this, "Password updated successfully.", Toast.LENGTH_LONG); //LENGTH_LONG - toast appear for 3 seconds
+                    Toast tt = Toast.makeText(MainActivity.this, "Password updated successfully.", Toast.LENGTH_SHORT); //LENGTH_LONG - toast appear for 3 seconds
                     tt.show();
                 }
                 else{
                     /**Show toast message saying that inputs are invalid**/
-                    Toast tt = Toast.makeText(MainActivity.this, "Invalid Input. Password must contain minimally 1 symbol, 1 uppercase and 1 numeric", Toast.LENGTH_LONG); //LENGTH_LONG - toast appear for 3 seconds
+                    Toast tt = Toast.makeText(MainActivity.this, "Invalid Input. Password must contain minimally 1 symbol, 1 uppercase and 1 numeric", Toast.LENGTH_SHORT); //LENGTH_LONG - toast appear for 3 seconds
                     tt.show();
                 }
             }
@@ -96,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = etUsername.getText().toString();
                 db.deleteUser(username);
-                Toast tt = Toast.makeText(MainActivity.this, "Account has been deleted.", Toast.LENGTH_LONG); //LENGTH_LONG - toast appear for 3 seconds
+                Toast tt = Toast.makeText(MainActivity.this, "Account has been deleted.", Toast.LENGTH_SHORT); //LENGTH_LONG - toast appear for 3 seconds
                 tt.show();
             }
         });

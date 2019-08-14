@@ -2,6 +2,7 @@ package com.example.practical_7;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -53,6 +54,12 @@ public class RegisterActivity extends AppCompatActivity {
                     boolean validPassword = pPassword.matcher(Password).matches();
 
                     if(validUsername && validPassword) {
+                        /**Shared Preferences - Save Data*/
+                        SharedPreferences.Editor editor = getSharedPreferences("MY_GLOBAL_PREFS", MODE_PRIVATE).edit();
+                        editor.putString("USER_NAME", Username);
+                        editor.putString("PASSWORD", Password);
+                        editor.apply();
+
                         db.addUser(new User(Username, Password));
                         Toast tt = Toast.makeText(RegisterActivity.this, "New User Created Successfully", Toast.LENGTH_LONG);
                         tt.show();
