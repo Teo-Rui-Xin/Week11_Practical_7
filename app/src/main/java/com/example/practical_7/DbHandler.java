@@ -90,15 +90,17 @@ public class DbHandler extends SQLiteOpenHelper {
         return false;
     }
 
-    public void updateUser(String username, String password){
+    public void updateUser(User user){
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_PASSWORD, password);
         db.execSQL("UPDATE " + TABLE_USERS + " SET " + COLUMN_PASSWORD
-                + " = " + "'" + password + "'"
+                + " = " + "'" + user.getPassword() + "'"
                 + " WHERE " + COLUMN_USERNAME
-                + " = " + "'" + username + "'");
+                + " = " + "'" + user.getUsername() + "'");
         db.close();
+
+        /*String query = "UPDATE " +ACCOUNTS + " SET "
+                + COLUMN_PASSWORD + " = \"" + a.getPassword() + "\""
+                + " WHERE " + COLUMN_USERNAME + " = \"" + a.getUsername() + "\"";*/
     }
 
     public void deleteUser(String username){

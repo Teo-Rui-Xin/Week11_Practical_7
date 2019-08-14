@@ -68,19 +68,19 @@ public class MainActivity extends AppCompatActivity {
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
 
-                User currentUser = db.Authenticate(new User(username, password));
+                User currentUser = new User(username, password);
 
                 Pattern pPassword = Pattern.compile("^(?=.*[@$!%*#?&+=])((?=.*[A-Z])(?=.*\\d).{8,})$");
                 Matcher matcher = pPassword.matcher(password);
 
-                if (matcher.matches() == true) {
-                    db.updateUser(username, password);
-                    Toast tt = Toast.makeText(MainActivity.this, "Password updated successfully.", Toast.LENGTH_LONG); //LENGTH_LONG - toast appear for 3 seconds
-                    tt.show();
-                }
-                else if (currentUser.getUsername() == null){
+                if (!db.isUsernameExists(username)){
                     /**Show toast message saying that account is not found**/
                     Toast tt = Toast.makeText(MainActivity.this, "Account not found.", Toast.LENGTH_LONG); //LENGTH_LONG - toast appear for 3 seconds
+                    tt.show();
+                }
+                else if (matcher.matches() == true) {
+                    db.updateUser(currentUser);
+                    Toast tt = Toast.makeText(MainActivity.this, "Password updated successfully.", Toast.LENGTH_LONG); //LENGTH_LONG - toast appear for 3 seconds
                     tt.show();
                 }
                 else{
